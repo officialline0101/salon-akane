@@ -748,7 +748,7 @@
         let optionsPrice = 0;
 
         document.addEventListener('DOMContentLoaded', function () {
-            liff.init({ liffId: '2005254357-zKma9BZk' }).then(() => {
+            liff.init({ liffId: '2008712126-arQ8pqcC' }).then(() => {
                 console.log('LIFF初期化成功');
             }).catch((err) => { console.log('LIFF初期化失敗', err); });
             fetchAvailability(currentDate);
@@ -1070,7 +1070,7 @@ function showMenu(menu) {
                 return;
             }
 
-            const url = 'https://script.google.com/macros/s/AKfycbwCxnJaxGZ46c3TnnesuZcD_zuxuVoSHoDHo5MxkRzChcK5vZDwBs4HstzkXO-KLyuDYA/exec' +
+            const url = 'https://script.google.com/macros/s/AKfycbxry1zpBOLOzcOUVVwKc5zaJhb83snusxjrn0_PXYSh-0xJOY321X3CRbEgsGWOxQAS/exec' +
                 `?startTime=${startTime.toISOString()}&endTime=${endTime.toISOString()}`;
 
             try {
@@ -1211,4 +1211,5 @@ function showMenu(menu) {
         function hideLoadingSpinner() { document.getElementById('loadingSpinner').style.display = 'none'; }
     </script>
 </body>
+
 </html>
