@@ -589,6 +589,9 @@
             <button type="button" onclick="showMenu('whitening')">フェイシャル</button>
             <button type="button" onclick="showMenu('redexisu')">レディース光脱毛</button>
             <button type="button" onclick="showMenu('menzukizzu')">メンズ・キッズ光脱毛</button>
+            <button type="button" onclick="showMenu('selfwhitening')">セルフホワイトニング</button>
+            <button type="button" onclick="showMenu('earpot')">耳ツボ</button>
+            <button type="button" onclick="showMenu('slimming')">痩身リラクゼーション</button>
         </div>
 
         <div id="selected-menus-display" style="display: none; margin-top: 10px;"></div>
@@ -636,7 +639,10 @@
                 <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="11000">プラズマ光フェイシャル・¥11000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="10000">人幹細胞導入フェイシャル・¥10000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="4000">サーマルフラクショナル・¥4000</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="17000">スペシャルケアオーダーメイド光＋ヒト幹細胞フェイシャル・¥17000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="14000">光フェイシャル＋人幹細胞導入フェイシャル・¥14000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="17000">オーダーメイド光フェイシャル＋人幹細胞導入フェイシャル・¥17000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="18000">プラズマ光フェイシャル＋人幹細胞導入フェイシャル・¥18000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フェイシャル" data-price="21000">オーダーメイドプラズマ光フェイシャル・¥21000</button>
             </div>
         </div>
 
@@ -668,10 +674,47 @@
             <div class="info-text">▼メニューをお選びください▼</div>
             <div class="symptoms">
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="8000">メンズ3点セット・¥8000</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="4500">ひげ・¥5000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="4500">ひげ・¥4500</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="2000">わき・¥2000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="1000">キッズ 1パーツ（わき、腕等）・¥1000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="1500">キッズ 顔 or ひざ上 or ひざ下・¥1500</button>
+            </div>
+        </div>
+
+        <div id="selfwhitening" class="menu-section">
+            <div class="labeltyuuou">
+                <span class="highlight-text">◆セルフホワイトニング◆</span>
+            </div>
+            <div class="info-text">▼メニューをお選びください▼</div>
+            <div class="symptoms">
+                <button type="button" onclick="selectSymptom(this)" data-category="セルフホワイトニング" data-price="3000">スタンダート・¥3000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="セルフホワイトニング" data-price="4000">プレミアム・¥4000</button>
+            </div>
+        </div>
+
+        <div id="earpot" class="menu-section">
+            <div class="labeltyuuou">
+                <span class="highlight-text">◆耳ツボ◆</span>
+            </div>
+            <div class="info-text">▼メニューをお選びください▼</div>
+            <div class="symptoms">
+                <button type="button" onclick="selectSymptom(this)" data-category="耳ツボ" data-price="3500">耳ツボセラピー・¥3500</button>
+            </div>
+        </div>
+
+        <div id="slimming" class="menu-section">
+            <div class="labeltyuuou">
+                <span class="highlight-text">◆痩身リラクゼーション◆</span>
+            </div>
+            <div class="info-text">▼メニューをお選びください▼</div>
+            <div class="symptoms">
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="5500">スカルプマッサージ【頭】・¥5500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="5500">肩こり改善・¥5500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="5500">美腸活【腹部】・¥5500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="5500">温活【背面】・¥5500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="8000">むくみ改善【下半身】・¥8000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="9500">お好きな箇所2箇所・¥9500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="痩身リラクゼーション" data-price="13000">お好きな箇所3箇所・¥13000</button>
             </div>
         </div>
 
@@ -763,11 +806,11 @@
         let selectedVisitTime = 0;
         let irradiationsTimes = {
             '【単品不可】ラメラメ　クイックケアトリートメント・¥1500': 0,
-            '【単品不可】ラメラメ　スペシャルケアトリートメント・¥2500': 30
+            '【単品不可】ラメラメ スペシャルケアトリートメント・¥2500': 30
         };
         let selectedirradiationsTime = 0;
 
-        // メニュー時間設定（元のコードより）
+        // メニュー時間設定（更新・追加分を含む）
         let menuTimes = {
             '酵素エステフルカラー・¥5300～': 60,
             'スタンダードフルカラー・¥4000～': 60,
@@ -779,7 +822,6 @@
             'プラズマ光フェイシャル・¥11000': 60,
             '人幹細胞導入フェイシャル・¥10000': 60,
             'サーマルフラクショナル・¥4000': 30,
-            'スペシャルケアオーダーメイド光＋ヒト幹細胞フェイシャル・¥17000': 90,
             '全身＋顔＋VIO・¥16000': 130,
             '全身＋（顔orVIO）・¥13500': 100,
             '全身（顔・VIOなし）・¥11000': 70,
@@ -793,10 +835,74 @@
             '腕等・¥3300': 30,
             'ひざ、背中等・¥4400': 30,
             'メンズ3点セット・¥8000': 70,
-            'ひげ・¥5000': 30,
+            'ひげ・¥4500': 30,
             'わき・¥2000': 15,
             'キッズ 1パーツ（わき、腕等）・¥1000': 30,
-            'キッズ 顔 or ひざ上 or ひざ下・¥1500': 30
+            'キッズ 顔 or ひざ上 or ひざ下・¥1500': 30,
+            
+            // フェイシャル追加分
+            '光フェイシャル＋人幹細胞導入フェイシャル・¥14000': 90,
+            'オーダーメイド光フェイシャル＋人幹細胞導入フェイシャル・¥17000': 90,
+            'プラズマ光フェイシャル＋人幹細胞導入フェイシャル・¥18000': 90,
+            'オーダーメイドプラズマ光フェイシャル・¥21000': 90,
+
+            // セルフホワイトニング
+            'スタンダート・¥3000': 30,
+            'プレミアム・¥4000': 45,
+
+            // 耳ツボ
+            '耳ツボセラピー・¥3500': 30,
+
+            // 痩身
+            'スカルプマッサージ【頭】・¥5500': 60,
+            '肩こり改善・¥5500': 60,
+            '美腸活【腹部】・¥5500': 60,
+            '温活【背面】・¥5500': 60,
+            'むくみ改善【下半身】・¥8000': 70,
+            'お好きな箇所2箇所・¥9500': 120,
+            'お好きな箇所3箇所・¥13000': 120
+        };
+
+        // メニューボタン文字列とカテゴリの対応マップ（カレンダー検索用）
+        // ※「¥」や「～」などの表記揺れ対策のため、価格部分を除いたキーワードで照合します
+        const menuCategoriesMap = {
+            '酵素エステフルカラー': '白髪染め',
+            'スタンダードフルカラー': '白髪染め',
+            '酵素エステリタッチカラー': '白髪染め',
+            'スタンダードリタッチカラー': '白髪染め',
+            'まつげパーマ': 'まつげパーマ',
+            '光フェイシャル': 'フェイシャル',
+            'オーダーメイド光フェイシャル': 'フェイシャル',
+            'プラズマ光フェイシャル': 'フェイシャル',
+            '人幹細胞導入フェイシャル': 'フェイシャル',
+            'サーマルフラクショナル': 'フェイシャル',
+            '全身＋顔＋VIO': 'レディース光脱毛',
+            '全身＋（顔orVIO）': 'レディース光脱毛',
+            '全身（顔・VIOなし）': 'レディース光脱毛',
+            '大人セット': 'レディース光脱毛',
+            '女子セット': 'レディース光脱毛',
+            '顔・': 'レディース光脱毛', // 「・」を含めることで「キッズ 顔」との誤判定を防ぐ
+            'デザインうなじ': 'レディース光脱毛',
+            'わき等': 'レディース光脱毛',
+            '腕等': 'レディース光脱毛',
+            'ひざ、背中等': 'レディース光脱毛',
+            'メンズ3点セット': 'メンズ・キッズ光脱毛',
+            'ひげ': 'メンズ・キッズ光脱毛',
+            'わき・': 'メンズ・キッズ光脱毛', // 「・」を含めることで「わき等」との誤判定を防ぐ
+            'キッズ': 'メンズ・キッズ光脱毛',
+            '光フェイシャル＋人幹細胞導入フェイシャル': 'フェイシャル',
+            'オーダーメイド光フェイシャル＋人幹細胞導入フェイシャル': 'フェイシャル',
+            'プラズマ光フェイシャル＋人幹細胞導入フェイシャル': 'フェイシャル',
+            'オーダーメイドプラズマ光フェイシャル': 'フェイシャル',
+            'スタンダート': 'セルフホワイトニング',
+            'プレミアム': 'セルフホワイトニング',
+            '耳ツボセラピー': '耳ツボ',
+            'スカルプマッサージ': '痩身リラクゼーション',
+            '肩こり改善': '痩身リラクゼーション',
+            '美腸活': '痩身リラクゼーション',
+            '温活': '痩身リラクゼーション',
+            'むくみ改善': '痩身リラクゼーション',
+            'お好きな箇所': '痩身リラクゼーション'
         };
         
         let selectedMenuTime = 0;
@@ -1041,6 +1147,7 @@ function showMenu(menu) {
 
             if (!formData.name) { alert('お名前を入力してください。'); return; }
             if (!formData.phone) { alert('電話番号を入力してください。'); return; }
+            if (!formData.visitCount) { alert('ご来店回数を選択してください。'); return; }
             if (!formData.selectedSymptom) { alert('メニューを選択してください。'); return; }
             if (!formData.dates) { alert('希望日時を選択してください。'); return; }
 
@@ -1077,9 +1184,29 @@ function showMenu(menu) {
                 showLoadingSpinner();
                 const response = await fetch(url);
                 const data = await response.json();
+                
+                // ==========================================
+                //  取得したイベントにカテゴリ情報を付与する処理
+                // ==========================================
+                const processedData = data.map(event => {
+                    let categories = [];
+                    // イベントの説明文とタイトルを結合して検索対象にする
+                    const text = ((event.description || '') + (event.title || ''));
+                    
+                    // menuCategoriesMap のキーが含まれているかチェック
+                    for (const [menuName, cat] of Object.entries(menuCategoriesMap)) {
+                        if (text.includes(menuName)) {
+                            // 部分一致（価格等の変動を許容）
+                            categories.push(cat);
+                        }
+                    }
+                    // 重複削除（念のため）
+                    return { ...event, categories: [...new Set(categories)] };
+                });
+
                 const businessDays = data.filter(event => event.summary === "営業日").map(event => ({ start: new Date(event.startTime), end: new Date(event.endTime) }));
-                availabilityCache[cacheKey] = { availability: data, businessDays: businessDays };
-                updateCalendar(data, businessDays);
+                availabilityCache[cacheKey] = { availability: processedData, businessDays: businessDays };
+                updateCalendar(processedData, businessDays);
             } catch (error) {
                 console.error('Error fetching availability:', error);
             } finally {
@@ -1119,6 +1246,9 @@ function showMenu(menu) {
             }
 
             const now = new Date();
+            // 現在選択中の全カテゴリを取得（例：['白髪染め', 'フェイシャル']）
+            const selectedCategories = selectedSymptom.map(s => s.category);
+
             for (let i = 0; i < 7; i++) {
                 const day = new Date(currentDate);
                 day.setDate(day.getDate() + i);
@@ -1153,15 +1283,43 @@ function showMenu(menu) {
                     });
                     
                     const relevantEvents = availability.filter(slot => slot.title !== "営業日" && new Date(slot.startTime) < slotEnd && new Date(slot.endTime) > slotStart);
-                    let overLimit = false;
                     
-                    // 重複チェックロジック（そのまま）
+                    // ===============================================
+                    //  重複チェックロジック（ボタン文字列ベース）
+                    // ===============================================
+                    let isConflict = false;
+                    let overLimit = false;
+
+                    // 1分刻みでチェック
                     for (let checkTime = new Date(slotStart.getTime()); checkTime < slotEnd; checkTime.setMinutes(checkTime.getMinutes() + 1)) {
-                         let overlapping = 1;
+                         let overlapping = 0;
+                         let existingCategoriesInSlot = [];
+
                          relevantEvents.forEach(slot => {
-                             if (new Date(slot.startTime) <= checkTime && new Date(slot.endTime) > checkTime) overlapping++;
+                             if (new Date(slot.startTime) <= checkTime && new Date(slot.endTime) > checkTime) {
+                                 overlapping++;
+                                 // 既にある予約のカテゴリを収集
+                                 if (slot.categories) {
+                                     existingCategoriesInSlot.push(...slot.categories);
+                                 }
+                             }
                          });
-                         if (overlapping >= 3) { overLimit = true; break; }
+
+                         // 1. 同カテゴリ重複チェック
+                         // 選択中のカテゴリのいずれかが、この時間の既存予約に含まれていたらNG
+                         if (selectedCategories.length > 0) {
+                             selectedCategories.forEach(myCat => {
+                                 if (existingCategoriesInSlot.includes(myCat)) {
+                                     isConflict = true;
+                                 }
+                             });
+                         }
+
+                         // 2. 総数チェック（2件以上ですでに埋まっていたらNG）
+                         // 自分がこれから1件入るので、既に2件あったらアウト
+                         if (overlapping >= 2 || isConflict) { 
+                             overLimit = true; break; 
+                         }
                     }
 
                     if (isBusinessEventTime && !overLimit) {
@@ -1211,8 +1369,4 @@ function showMenu(menu) {
         function hideLoadingSpinner() { document.getElementById('loadingSpinner').style.display = 'none'; }
     </script>
 </body>
-
 </html>
-
-
-
