@@ -576,7 +576,7 @@
 
         <div class="label">ご来店回数<span class="required">必須</span></div>
         <div class="visit-buttons">
-            <button type="button" id="firstVisit" onclick="selectVisit(this)">1回目</button>
+            <button type="button" id="firstVisit" onclick="selectVisit(this)">新規</button>
             <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button>
         </div>
 
@@ -656,10 +656,10 @@
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="3000">デザインうなじ・¥3000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="6000">VIO・¥6000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="8000">顔＋VIO・¥8000</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="6500">わき・ひじ下・ひざ下・¥6500</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="2000">Sパーツ（ワキ・手等）・¥2000</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="3300">Mパーツ（ひじ上・下・V・I・O）・¥3300</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="4400">Lパーツ（背、ひざ上、下等）・¥4400</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="6500">わき・ひじ下・ひざ下３点セット・¥6500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="2000">Sパーツ（ワキ・手など）・¥2000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="3300">Mパーツ（ひじ上・下・V・I・Oなど）・¥3300</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="4400">Lパーツ（背・ひざ上・下など）・¥4400</button>
             </div>
         </div>
 
@@ -825,10 +825,10 @@
             'デザインうなじ・¥3000': 30,
             'VIO・¥6000': 70,
             '顔＋VIO・¥8000': 70,
-            'わき・ひじ下・ひざ下・¥6500': 70,
-            'Sパーツ（ワキ・手等）・¥2000': 15,
-            'Mパーツ（ひじ上・下・V・I・O）・¥3300': 30,
-            'Lパーツ（背、ひざ上、下等）・¥4400': 30,
+            'わき・ひじ下・ひざ下３点セット・¥6500': 70,
+            'Sパーツ（ワキ・手など）・¥2000': 15,
+            'Mパーツ（ひじ上・下・V・I・Oなど）・¥3300': 30,
+            'Lパーツ（背・ひざ上・下など）・¥4400': 30,
             'メンズ3点セット・¥8000': 70,
             'ひげ・¥4500': 30,
             'わき・¥2000': 15,
@@ -878,10 +878,10 @@
             'デザインうなじ・¥3000': 'レディース光脱毛',
             'VIO・¥6000': 'レディース光脱毛',
             '顔＋VIO・¥8000': 'レディース光脱毛',
-            'わき・ひじ下・ひざ下・¥6500': 'レディース光脱毛',
-            'Sパーツ（ワキ・手等）・¥2000': 'レディース光脱毛',
-            'Mパーツ（ひじ上・下・V・I・O）・¥3300': 'レディース光脱毛',
-            'Lパーツ（背、ひざ上、下等）・¥4400': 'レディース光脱毛',
+            'わき・ひじ下・ひざ下３点セット・¥6500': 'レディース光脱毛',
+            'Sパーツ（ワキ・手など）・¥2000': 'レディース光脱毛',
+            'Mパーツ（ひじ上・下・V・I・Oなど）・¥3300': 'レディース光脱毛',
+            'Lパーツ（背・ひざ上・下など）・¥4400': 'レディース光脱毛',
             'メンズ3点セット': 'メンズ・キッズ光脱毛',
             'ひげ': 'メンズ・キッズ光脱毛',
             'わき・': 'メンズ・キッズ光脱毛', // 「・」を含めることで「わき等」との誤判定を防ぐ
@@ -1366,6 +1366,7 @@ function showMenu(menu) {
     </script>
 </body>
 </html>
+
 
 
 
