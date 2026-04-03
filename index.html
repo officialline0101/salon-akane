@@ -1390,6 +1390,14 @@ function showMenu(menu) {
                     cell.setAttribute('data-date', slotStart.toISOString());
                 }
             }
+
+            // ○✕判定完了後、選択済みセルが✕になっていたら選択を解除する
+            const selectedCell = document.querySelector('.calendar td.selected');
+            if (selectedCell && selectedCell.classList.contains('unavailable')) {
+                selectedCell.classList.remove('selected');
+                selectedFullDate = '';
+                updateDisplayInfo();
+            }
         }
 
         function updateCalendarHeader(date) {
