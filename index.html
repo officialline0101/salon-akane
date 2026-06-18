@@ -1332,7 +1332,15 @@ function showMenu(menu) {
                         return slotStart >= businessDayStart && slotEnd <= businessDayEnd;
                     });
                     
-                    const relevantEvents = availability.filter(slot => slot.title !== "営業日" && new Date(slot.startTime) < slotEnd && new Date(slot.endTime) > slotStart);
+                    // 「営業日」と、タイトルに「予約不可」を含むシフト等のイベントは、
+                    // 同時予約数および同カテゴリ重複の判定対象から除外する
+                    const relevantEvents = availability.filter(slot => {
+                        const title = slot.title || '';
+                        return title !== "営業日"
+                            && !title.includes("予約不可")
+                            && new Date(slot.startTime) < slotEnd
+                            && new Date(slot.endTime) > slotStart;
+                    });
                     
                     // ===============================================
                     //  重複チェックロジック（ボタン文字列ベース）
