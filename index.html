@@ -196,7 +196,7 @@
         /* =========================================
            ボタン全般（選択肢）
            ========================================= */
-        .visit-buttons, .symptoms, .menu-sections, .irradiations {
+        .visit-buttons, .symptoms, .menu-sections, .irradiations, .first-time-buttons, .triggers {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -206,7 +206,9 @@
         .visit-buttons button,
         .symptoms button,
         .menu-sections button,
-        .irradiations button {
+        .irradiations button,
+        .first-time-buttons button,
+        .triggers button {
             flex: 1;
             padding: 12px;
             border: 1px solid var(--main-green); /* 緑の枠線 */
@@ -232,7 +234,9 @@
         .visit-buttons button.active,
         .symptoms button.active,
         .menu-sections button.active,
-        .irradiations button.active {
+        .irradiations button.active,
+        .first-time-buttons button.active,
+        .triggers button.active {
             background-color: var(--main-green);
             color: var(--white);
             border-color: var(--main-green);
@@ -591,6 +595,20 @@
             <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button>
         </div>
 
+        <div id="triggerSection" style="display: none;">
+            <div class="label" id="trigger">当店を知ったきっかけを教えてください<span class="required">必須</span></div>
+            <div class="info-text">※あてはまるものをすべてお選びください</div>
+            <div class="triggers">
+                <button type="button" id="firstTrigger" onclick="selectTrigger(this)">飲食店　茜</button>
+                <button type="button" onclick="selectTrigger(this)">知人、友人</button>
+                <button type="button" onclick="selectTrigger(this)">Google</button>
+                <button type="button" onclick="selectTrigger(this)">Instagram</button>
+                <button type="button" onclick="selectTrigger(this)">チラシ・広告</button>
+                <button type="button" id="triggerOtherBtn" onclick="selectTrigger(this)">その他</button>
+            </div>
+            <input type="text" id="triggerOtherText" placeholder="きっかけをご記入ください" style="display: none;" oninput="updateTriggerOther()">
+        </div>
+
         <div class="label" id="course">メニューをお選びください<span class="required">必須</span></div>
         <div class="info-text">※メニューを選択すると空き状況のカレンダーが表示されます</div>
         
@@ -636,6 +654,7 @@
             <div class="info-text">▼メニューをお選びください▼</div>
             <div class="symptoms">
                 <button type="button" onclick="selectSymptom(this)" data-category="まつげパーマ" data-price="5500">まつげパーマ・¥5500</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="まつげパーマ" data-price="6500">マスカラパーマ・¥6500</button>
             </div>
         </div>
 
@@ -774,6 +793,12 @@
             </div>
         </div>
 
+        <div class="label" id="firstTimeMenu">選択したメニューを受けるのは初めてですか？<span class="required">必須</span></div>
+        <div class="first-time-buttons">
+            <button type="button" id="firstTimeYes" onclick="selectFirstTime(this)">はい</button>
+            <button type="button" id="firstTimeNo" onclick="selectFirstTime(this)">いいえ</button>
+        </div>
+
         <div class="label">メッセージ<br><span style="font-size:12px; font-weight:normal;">（質問等お気軽にご記入ください）</span></div>
         <textarea id="message" rows="4" placeholder="メッセージを入力してください"></textarea>
 
@@ -795,6 +820,8 @@
         let currentDate = new Date();
         let availabilityCache = {};
         let irradiationsCount = '';
+        let firstTimeMenu = '';   // 選択したメニューを受けるのが初めてか（はい／いいえ）
+        let selectedTriggers = []; // 当店を知ったきっかけ（新規のみ・複数選択可）
         let totalAmount = 0;
         let menuPrice = 0;
         let optionsPrice = 0;
@@ -829,6 +856,7 @@
             '酵素エステリタッチカラー・¥4000': 60,
             'スタンダードリタッチカラー・¥3200': 60,
             'まつげパーマ・¥5500': 60,
+            'マスカラパーマ・¥6500': 75,
             '光フェイシャル・¥7000': 60,
             'オーダーメイド光フェイシャル・¥10000': 60,
             'プラズマ光フェイシャル・¥11000': 60,
@@ -882,6 +910,7 @@
             '酵素エステリタッチカラー': '白髪染め',
             'スタンダードリタッチカラー': '白髪染め',
             'まつげパーマ': 'まつげパーマ',
+            'マスカラパーマ': 'まつげパーマ',
             '光フェイシャル': 'フェイシャル',
             'オーダーメイド光フェイシャル': 'フェイシャル',
             'プラズマ光フェイシャル': 'フェイシャル',
@@ -952,14 +981,27 @@
             let calcTotal = menuPrice + optionsPrice;
             const totalAmountText = `<span style="color:#4e8c6f;"><strong>合計金額</strong></span>：¥${calcTotal.toLocaleString()}`; // カンマ区切り追加
             const selectedDateText = selectedFullDate ? `<span style="color:#4e8c6f;"><strong>希望日時</strong></span>：${selectedFullDate}` : '・日時が未選択です';
+            const firstTimeText = firstTimeMenu
+                ? `<span style="color:#4e8c6f;"><strong>メニューは初めて</strong></span>：${firstTimeMenu}`
+                : '・メニューが初めてかどうかが未選択です';
+
+            // 「新規」のときだけ、きっかけの行を表示する
+            const triggerList = getTriggerText();
+            const triggerRow = (visitCount === '新規')
+                ? `<div class="info-row"><p>${triggerList.length > 0
+                        ? `<span style="color:#4e8c6f;"><strong>知ったきっかけ</strong></span><br>・${triggerList.join('<br>・')}`
+                        : '・知ったきっかけが未選択です'}</p><button class="edit-button" onclick="scrollToElement('trigger')">修正</button></div><hr>`
+                : '';
 
             document.getElementById('displayInfo').innerHTML = `
                 <div class="info-row"><p><span style="color:#4e8c6f;"><strong>お名前</strong></span>：${name}</p><button class="edit-button" onclick="scrollToElement('name')">修正</button></div><hr>
                 <div class="info-row"><p>${visitCountText}</p><button class="edit-button" onclick="scrollToElement('firstVisit')">修正</button></div><hr>
+                ${triggerRow}
                 <div class="info-row"><p>${selectedSymptomText}</p><button class="edit-button" onclick="scrollToElement('course')">修正</button></div><hr>
                 <div class="info-row"><p>${irradiationsText}</p><button class="edit-button" onclick="scrollToElement('firstirradiations')">修正</button></div><hr>
                 <div class="info-row"><p>${totalAmountText}</p></div><hr>
                 <div class="info-row"><p>${selectedDateText}</p><button class="edit-button" onclick="scrollToElement('calendar1')">修正</button></div><hr>
+                <div class="info-row"><p>${firstTimeText}</p><button class="edit-button" onclick="scrollToElement('firstTimeMenu')">修正</button></div><hr>
             `;
         }
 
@@ -1098,7 +1140,60 @@
             element.classList.add('active');
             visitCount = element.innerText;
             selectedVisitTime = visitTimes[visitCount];
+
+            // 「新規」のときだけ、当店を知ったきっかけの質問を表示する
+            const triggerSection = document.getElementById('triggerSection');
+            if (visitCount === '新規') {
+                triggerSection.style.display = 'block';
+            } else {
+                triggerSection.style.display = 'none';
+                resetTriggers();
+            }
+
             fetchAvailability(currentDate);
+            updateDisplayInfo();
+        }
+
+        function resetTriggers() {
+            document.querySelectorAll('.triggers button.active').forEach(btn => btn.classList.remove('active'));
+            const otherText = document.getElementById('triggerOtherText');
+            otherText.value = '';
+            otherText.style.display = 'none';
+            selectedTriggers = [];
+        }
+
+        function selectTrigger(button) {
+            button.classList.toggle('active');
+
+            // 「その他」を選んだときだけ記入欄を出す
+            const otherBtn = document.getElementById('triggerOtherBtn');
+            const otherText = document.getElementById('triggerOtherText');
+            if (otherBtn.classList.contains('active')) {
+                otherText.style.display = 'block';
+            } else {
+                otherText.style.display = 'none';
+                otherText.value = '';
+            }
+
+            selectedTriggers = [...document.querySelectorAll('.triggers button.active')].map(b => b.innerText);
+            updateDisplayInfo();
+        }
+
+        function updateTriggerOther() {
+            updateDisplayInfo();
+        }
+
+        // 表示・送信用のきっかけ文言（「その他」は記入内容を添える）
+        function getTriggerText() {
+            const otherValue = document.getElementById('triggerOtherText').value.trim();
+            return selectedTriggers.map(name => (name === 'その他' && otherValue) ? `その他（${otherValue}）` : name);
+        }
+
+        function selectFirstTime(element) {
+            document.getElementById('firstTimeYes').classList.remove('active');
+            document.getElementById('firstTimeNo').classList.remove('active');
+            element.classList.add('active');
+            firstTimeMenu = element.innerText;
             updateDisplayInfo();
         }
 
@@ -1154,21 +1249,31 @@ function showMenu(menu) {
                 selectedSymptom: selectedSymptom && selectedSymptom.length > 0 ? selectedSymptom : null,
                 irradiationsCount: irradiationsCount,
                 dates: selectedFullDate ? [selectedFullDate] : null,
+                firstTimeMenu: firstTimeMenu,
+                triggers: getTriggerText(),
                 message: document.getElementById('message').value.trim()
             };
 
             if (!formData.name) { alert('お名前を入力してください。'); return; }
             if (!formData.phone) { alert('電話番号を入力してください。'); return; }
             if (!formData.visitCount) { alert('ご来店回数を選択してください。'); return; }
+            if (formData.visitCount === '新規' && formData.triggers.length === 0) { alert('当店を知ったきっかけを選択してください。'); return; }
+            if (formData.visitCount === '新規'
+                && document.getElementById('triggerOtherBtn').classList.contains('active')
+                && !document.getElementById('triggerOtherText').value.trim()) {
+                alert('「その他」の内容をご記入ください。'); return;
+            }
             if (!formData.selectedSymptom) { alert('メニューを選択してください。'); return; }
             if (!formData.dates) { alert('希望日時を選択してください。'); return; }
+            if (!formData.firstTimeMenu) { alert('選択したメニューを受けるのは初めてかどうかを選択してください。'); return; }
 
             const selectedSymptomText = formData.selectedSymptom ? formData.selectedSymptom.map(item => `${item.name}`).join(',') : 'メニュー未選択';
             const irradiationsText = formData.irradiationsCount || 'なし';
+            const triggerText = formData.visitCount === '新規' ? `\n知ったきっかけ：${formData.triggers.join('、')}` : '';
 
             liff.sendMessages([{
                 type: 'text',
-                text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}\nメニュー：${selectedSymptomText},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメッセージ：${formData.message}`
+                text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}${triggerText}\nメニュー：${selectedSymptomText},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメニューは初めて：${formData.firstTimeMenu}\nメッセージ：${formData.message}`
             }]).then(() => {
                 alert('予約メッセージを送信しました。当日キャンセルは無いようにお願いいたします。');
                 liff.closeWindow();
@@ -1456,4 +1561,3 @@ function showMenu(menu) {
     </script>
 </body>
 </html>
-
