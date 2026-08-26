@@ -557,7 +557,74 @@
             margin: 0 auto 10px auto;
         }
         .loading-text { color: var(--dark-green); font-weight: bold;}
-        
+
+        /* =========================================
+           予約送信時の表示（送信中／完了／失敗）
+           ※LINEのネイティブalertは表示が遅れるため使わない
+           ========================================= */
+        .submit-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.45);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .submit-overlay.show { display: flex; }
+        .submit-panel {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            padding: 30px 24px;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+            animation: fadeIn 0.25s ease;
+        }
+        .submit-panel .check-mark {
+            width: 56px; height: 56px;
+            margin: 0 auto 14px auto;
+            border-radius: 50%;
+            background: var(--main-green);
+            color: #fff;
+            font-size: 30px;
+            line-height: 56px;
+        }
+        .submit-panel .submit-title {
+            color: var(--dark-green);
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+        .submit-panel .submit-note {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .submit-panel .submit-close {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--main-green), var(--dark-green));
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        /* 送信中はボタンを押せなくする（二重送信防止） */
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: default;
+            box-shadow: none;
+            transform: none;
+        }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -808,6 +875,29 @@
         <button class="submit-button" onclick="submitForm()" id="section-message">予約を行う</button>
     </div>
 
+    <!-- 予約送信時の表示（送信中／完了／失敗）
+         ※カレンダー用のローディングは .calendar-container の中にあり
+           非表示状態だと出せないため、こちらは body 直下に置いています -->
+    <div class="submit-overlay" id="submitOverlay">
+        <div class="submit-panel">
+            <div id="submitSending">
+                <div class="spinner"></div>
+                <div class="loading-text">送信中...</div>
+            </div>
+            <div id="submitDone" style="display:none;">
+                <div class="check-mark">✓</div>
+                <div class="submit-title">予約メッセージを送信しました</div>
+                <div class="submit-note">当日キャンセルは無いようにお願いいたします。</div>
+                <button type="button" class="submit-close" onclick="closeLiffWindow()">閉じる</button>
+            </div>
+            <div id="submitError" style="display:none;">
+                <div class="submit-title">送信に失敗しました</div>
+                <div class="submit-note">電波状況をご確認のうえ、<br>もう一度お試しください。</div>
+                <button type="button" class="submit-close" onclick="dismissSubmitOverlay()">戻る</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
         // ==========================================
@@ -826,6 +916,7 @@
         let menuPrice = 0;
         let optionsPrice = 0;
         let isCalendarLoading = false;    // カレンダー読み込み中フラグ
+        let isSubmitting = false;          // 予約送信中フラグ（二重送信の防止）
         let currentAbortController = null; // fetch中断用コントローラー
         let fetchRequestId = 0;            // リクエスト追跡ID
 
@@ -1242,6 +1333,9 @@ function showMenu(menu) {
         }
 
         function submitForm() {
+            // 送信処理中の再タップを無視（二重予約の防止）
+            if (isSubmitting) return;
+
             const formData = {
                 name: document.getElementById('name').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
@@ -1271,16 +1365,45 @@ function showMenu(menu) {
             const irradiationsText = formData.irradiationsCount || 'なし';
             const triggerText = formData.visitCount === '新規' ? `\n知ったきっかけ：${formData.triggers.join('、')}` : '';
 
+            // 送信開始：オーバーレイを出してボタンを止める（二重送信・二重予約の防止）
+            // ※ liff.sendMessages は通信完了まで数秒かかるため、
+            //   ここで表示を出さないとタップしても無反応に見えてしまう
+            const submitBtn = document.querySelector('.submit-button');
+            isSubmitting = true;
+            if (submitBtn) submitBtn.disabled = true;
+            showSubmitOverlay('sending');
+
             liff.sendMessages([{
                 type: 'text',
                 text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}${triggerText}\nメニュー：${selectedSymptomText},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメニューは初めて：${formData.firstTimeMenu}\nメッセージ：${formData.message}`
             }]).then(() => {
-                alert('予約メッセージを送信しました。当日キャンセルは無いようにお願いいたします。');
-                liff.closeWindow();
+                // 完了表示。閉じるボタンを押した時点で liff.closeWindow() する
+                showSubmitOverlay('done');
             }).catch((err) => {
                 console.error('メッセージの送信に失敗しました', err);
-                alert('送信に失敗しました。LINEアプリから再度お試しください。');
+                // 失敗時のみフォームに戻ってやり直せるようにする
+                isSubmitting = false;
+                if (submitBtn) submitBtn.disabled = false;
+                showSubmitOverlay('error');
             });
+        }
+
+        // 送信中／完了／失敗の表示切り替え（ネイティブのalertは使わない）
+        function showSubmitOverlay(state) {
+            document.getElementById('submitSending').style.display = (state === 'sending') ? 'block' : 'none';
+            document.getElementById('submitDone').style.display = (state === 'done') ? 'block' : 'none';
+            document.getElementById('submitError').style.display = (state === 'error') ? 'block' : 'none';
+            document.getElementById('submitOverlay').classList.add('show');
+        }
+
+        // 「戻る」：オーバーレイを閉じてフォームに戻る（送信失敗時のみ使用）
+        function dismissSubmitOverlay() {
+            document.getElementById('submitOverlay').classList.remove('show');
+        }
+
+        // 「閉じる」：LIFFウィンドウを閉じてトーク画面に戻る
+        function closeLiffWindow() {
+            liff.closeWindow();
         }
 
         async function fetchAvailability(date) {
