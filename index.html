@@ -754,7 +754,8 @@
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="6000">VIO・¥6000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="8000">顔＋VIO・¥8000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="6500">わき・ひじ下・ひざ下３点セット・¥6500</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="2000">Sパーツ（ワキ・手など）・¥2000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="2000">わき・¥2000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="2200">Sパーツ（手など）・¥2200</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="3300">Mパーツ（ひじ上・下・V・I・Oなど）・¥3300</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="レディース光脱毛" data-price="4400">Lパーツ（背・ひざ上・下など）・¥4400</button>
             </div>
@@ -767,8 +768,11 @@
             <div class="info-text">▼メニューをお選びください▼</div>
             <div class="symptoms">
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="8000">メンズ3点セット・¥8000</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="4500">ひげ・¥5000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="5000">ひげ・¥5000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="2000">わき・¥2000</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="3300">Sパーツ（手など）・¥3300</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="4400">Mパーツ（ひじ下・ひじ上・お腹周りなど）・¥4400</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="5500">Lパーツ（背・ひざ上・下など）・¥5500</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="1000">キッズ 1パーツ（わき、腕等）・¥1000</button>
                 <button type="button" onclick="selectSymptom(this)" data-category="メンズ・キッズ光脱毛" data-price="1500">キッズ 顔 or ひざ上 or ひざ下・¥1500</button>
             </div>
@@ -961,12 +965,16 @@
             'VIO・¥6000': 70,
             '顔＋VIO・¥8000': 70,
             'わき・ひじ下・ひざ下３点セット・¥6500': 70,
-            'Sパーツ（ワキ・手など）・¥2000': 15,
+            'Sパーツ（手など）・¥2200': 15,
             'Mパーツ（ひじ上・下・V・I・Oなど）・¥3300': 30,
             'Lパーツ（背・ひざ上・下など）・¥4400': 30,
             'メンズ3点セット・¥8000': 70,
             'ひげ・¥5000': 30,
+            // 「わき・¥2000」はレディース・メンズの両方に同名同額で存在（時間も共通15分）
             'わき・¥2000': 15,
+            'Sパーツ（手など）・¥3300': 15,
+            'Mパーツ（ひじ下・ひじ上・お腹周りなど）・¥4400': 30,
+            'Lパーツ（背・ひざ上・下など）・¥5500': 30,
             'キッズ 1パーツ（わき、腕等）・¥1000': 30,
             'キッズ 顔 or ひざ上 or ひざ下・¥1500': 30,
             
@@ -1015,12 +1023,19 @@
             'VIO・¥6000': 'レディース光脱毛',
             '顔＋VIO・¥8000': 'レディース光脱毛',
             'わき・ひじ下・ひざ下３点セット・¥6500': 'レディース光脱毛',
-            'Sパーツ（ワキ・手など）・¥2000': 'レディース光脱毛',
+            // ※S/M/Lパーツはレディース・メンズで名前が重なるため、必ず金額まで含めて判定する
+            'Sパーツ（手など）・¥2200': 'レディース光脱毛',
+            'Sパーツ（ワキ・手など）': 'レディース光脱毛', // 旧メニュー名。名称変更前に入った予約を判定するために残す
             'Mパーツ（ひじ上・下・V・I・Oなど）・¥3300': 'レディース光脱毛',
             'Lパーツ（背・ひざ上・下など）・¥4400': 'レディース光脱毛',
             'メンズ3点セット': 'メンズ・キッズ光脱毛',
             'ひげ': 'メンズ・キッズ光脱毛',
-            'わき・': 'メンズ・キッズ光脱毛', // 「・」を含めることで「わき等」との誤判定を防ぐ
+            // 「わき・¥2000」はレディース・メンズの両方に同名同額で存在し、
+            // 予約内容の文字からはどちらか判別できないため、両カテゴリとして扱う（安全側）
+            'わき・¥2000': ['レディース光脱毛', 'メンズ・キッズ光脱毛'],
+            'Sパーツ（手など）・¥3300': 'メンズ・キッズ光脱毛',
+            'Mパーツ（ひじ下・ひじ上・お腹周りなど）・¥4400': 'メンズ・キッズ光脱毛',
+            'Lパーツ（背・ひざ上・下など）・¥5500': 'メンズ・キッズ光脱毛',
             'キッズ': 'メンズ・キッズ光脱毛',
             '光フェイシャル＋人幹細胞導入フェイシャル': 'フェイシャル',
             'オーダーメイド光フェイシャル＋人幹細胞導入フェイシャル': 'フェイシャル',
@@ -1461,7 +1476,8 @@ function showMenu(menu) {
                     for (const [menuName, cat] of Object.entries(menuCategoriesMap)) {
                         if (text.includes(menuName)) {
                             // 部分一致（価格等の変動を許容）
-                            categories.push(cat);
+                            // catは文字列のほか、複数カテゴリにまたがるメニューでは配列も取り得る
+                            categories.push(...[].concat(cat));
                         }
                     }
                     // 重複削除（念のため）
